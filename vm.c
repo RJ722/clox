@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "vm.h"
+#include "debug.h"
 
 VM vm;
 
@@ -16,6 +17,9 @@ InterpretResult run() {
 
     for (;;) {
         uint8_t instruction = READ_BYTE();
+        #ifdef DEBUG_TRACE_EXECUTION
+            disassembleInstruction(vm.chunk, (int)(vm.ip - vm.chunk->code));
+        #endif
         switch (instruction) {
             case OP_RETURN: {
                 return INTERPRET_OK;
